@@ -1,0 +1,6 @@
+{
+  "makerbit.onClap|block": "on clap detected | with HC-SR04 Trig at %trig | and Echo at %echo",
+  "makerbit|block": "MakerBit",
+  "{id:category}Makerbit": "Makerbit",
+  "{id:subcategory}Clap": "Clap"
+}
