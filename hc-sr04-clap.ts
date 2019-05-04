@@ -37,6 +37,18 @@ namespace makerbit {
     const adjustmentTimeframe = input.runningTime() + 3000;
     let timeout = 30000;
 
+    let nextTrigger = input.runningTime() + 2000;
+
+    control.inBackground(() => {
+      while (true) {
+        if (input.runningTime() > nextTrigger) {
+          triggerPulse(trig);
+          nextTrigger += 2000;
+        }
+        basic.pause(20);
+      }
+    });
+
     triggerPulse(trig);
 
     pins.onPulsed(echo, PulseValue.High, () => {
@@ -44,19 +56,21 @@ namespace makerbit {
 
       if (
         pulseDuration > timeout &&
-        adjustmentTimeframe < input.runningTime()
+        adjustmentTimeframe > input.runningTime()
       ) {
-        // 
         timeout = pulseDuration;
+        // makerbit.showNumberOnLcd(timeout, 0, 8);
       }
 
-      if (0 < pulseDuration && pulseDuration < timeout - (timeout >> 4)) {
+      if (pulseDuration > timeout - (timeout >> 4)) {
+        nextTrigger = input.runningTime() + 30;
+        // makerbit.showNumberOnLcd(pulseDuration, 25, 31);
+      } else if (pulseDuration > 0) {
         control.raiseEvent(MICROBIT_MAKERBIT_ULTRASONIC_CLAP_ID, 1);
+        // makerbit.showNumberOnLcd(pulseDuration, 16, 24);
+        // prevent double detection of same clap/snap
+        nextTrigger = input.runningTime() + 500;
       }
-
-      basic.pause(5); // prevent double detection of same clap
-
-      triggerPulse(trig);
     });
   }
 
