@@ -41,9 +41,9 @@ namespace makerbit {
 
     control.inBackground(() => {
       while (true) {
-        if (input.runningTime() > nextTrigger) {
+        if (nextTrigger != 0 && input.runningTime() > nextTrigger) {
           triggerPulse(trig);
-          nextTrigger += 2000;
+          nextTrigger = 0;
         }
         basic.pause(20);
       }
@@ -63,13 +63,20 @@ namespace makerbit {
       }
 
       if (pulseDuration > timeout - (timeout >> 4)) {
-        nextTrigger = input.runningTime() + 30;
+        const n = input.runningTime() + 30;
+        if (n > nextTrigger) {
+          nextTrigger = n;
+        }
+
         // makerbit.showNumberOnLcd(pulseDuration, 25, 31);
       } else if (pulseDuration > 0) {
         control.raiseEvent(MICROBIT_MAKERBIT_ULTRASONIC_CLAP_ID, 1);
         // makerbit.showNumberOnLcd(pulseDuration, 16, 24);
         // prevent double detection of same clap/snap
-        nextTrigger = input.runningTime() + 500;
+        const n = input.runningTime() + 500;
+        if (n > nextTrigger) {
+          nextTrigger = n;
+        }
       }
     });
   }
