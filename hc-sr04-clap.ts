@@ -34,36 +34,43 @@ namespace makerbit {
   }
 
   function initClapDetection(trig: DigitalPin, echo: DigitalPin) {
-    const adjustmentTimeframe = input.runningTime() + 3000;
-    let timeout = 30000;
-
-    let nextTrigger = input.runningTime() + 2000;
+    let nextTrigger = 0;
+    let noTriggerInALongTimeTrigger = 0;
 
     control.inBackground(() => {
       while (true) {
-        if (nextTrigger != 0 && input.runningTime() > nextTrigger) {
+        basic.pause(20);
+        const now = input.runningTime();
+        if (
+          (nextTrigger != 0 && now > nextTrigger) ||
+          now > noTriggerInALongTimeTrigger
+        ) {
           triggerPulse(trig);
           nextTrigger = 0;
+          noTriggerInALongTimeTrigger = now + 2000;
         }
-        basic.pause(20);
       }
     });
 
-    triggerPulse(trig);
+    let adjustmentTimeframe = 0;
+    let hcsr04Timeout = 30000;
 
     pins.onPulsed(echo, PulseValue.High, () => {
       const pulseDuration = pins.pulseDuration();
+      const now = input.runningTime();
 
-      if (
-        pulseDuration > timeout &&
-        adjustmentTimeframe > input.runningTime()
-      ) {
-        timeout = pulseDuration;
-        // makerbit.showNumberOnLcd(timeout, 0, 8);
+      // Adjust device timeout duration
+      if (hcsr04Timeout === 30000) {
+        // no timeout received - probably because of ultrasonic noise
+        adjustmentTimeframe = now + 3000;
+      }
+      if (pulseDuration > hcsr04Timeout && now < adjustmentTimeframe) {
+        hcsr04Timeout = pulseDuration;
+        // makerbit.showNumberOnLcd(hcsr04Timeout, 0, 8);
       }
 
-      if (pulseDuration > timeout - (timeout >> 4)) {
-        const n = input.runningTime() + 30;
+      if (pulseDuration > hcsr04Timeout - (hcsr04Timeout >> 4)) {
+        const n = now + 30;
         if (n > nextTrigger) {
           nextTrigger = n;
         }
@@ -73,7 +80,7 @@ namespace makerbit {
         control.raiseEvent(MICROBIT_MAKERBIT_ULTRASONIC_CLAP_ID, 1);
         // makerbit.showNumberOnLcd(pulseDuration, 16, 24);
         // prevent double detection of same clap/snap
-        const n = input.runningTime() + 500;
+        const n = now + 500;
         if (n > nextTrigger) {
           nextTrigger = n;
         }

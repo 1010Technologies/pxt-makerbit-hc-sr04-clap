@@ -1,6 +1,6 @@
 # MakerBit Ultrasonic
 
-[![Build Status](https://travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap.svg?branch=master)](https://travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap)
+[![Build Status](https://api.travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap.svg?branch=master)](https://travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap)
 
 MakeCode extension for detecting claps and finger snaps with a modified HC-SR04 ultrasonic sensor.
 
