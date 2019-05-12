@@ -1,4 +1,4 @@
-// MakerBit blocks supporting a HC-SR04 ultrasonic distance sensor
+// MakerBit blocks supporting clap detection with a HC-SR04 ultrasonic distance sensor
 
 namespace makerbit {
   const MICROBIT_MAKERBIT_ULTRASONIC_CLAP_ID = 3475;
@@ -66,7 +66,6 @@ namespace makerbit {
       }
       if (pulseDuration > hcsr04Timeout && now < adjustmentTimeframe) {
         hcsr04Timeout = pulseDuration;
-        // makerbit.showNumberOnLcd(hcsr04Timeout, 0, 8);
       }
 
       if (pulseDuration > hcsr04Timeout - (hcsr04Timeout >> 4)) {
@@ -74,11 +73,8 @@ namespace makerbit {
         if (n > nextTrigger) {
           nextTrigger = n;
         }
-
-        // makerbit.showNumberOnLcd(pulseDuration, 25, 31);
       } else if (pulseDuration > 0) {
         control.raiseEvent(MICROBIT_MAKERBIT_ULTRASONIC_CLAP_ID, 1);
-        // makerbit.showNumberOnLcd(pulseDuration, 16, 24);
         // prevent double detection of same clap/snap
         const n = now + 500;
         if (n > nextTrigger) {
