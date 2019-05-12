@@ -1,4 +1,4 @@
-# MakerBit Ultrasonic
+# MakerBit Ultrasonic HC-SR04 Clap Detector
 
 [![Build Status](https://api.travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap.svg?branch=master)](https://travis-ci.org/1010Technologies/pxt-makerbit-hc-sr04-clap)
 
