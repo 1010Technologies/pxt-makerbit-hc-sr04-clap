@@ -1,6 +1,6 @@
 {
     "name": "MakerBit-HC-SR04-Clap",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Clap and finger snap detection with a modified ultrasonic HC-SR04 sensor",
     "license": "MIT",
     "dependencies": {
