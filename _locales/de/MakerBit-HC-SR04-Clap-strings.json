@@ -2,5 +2,5 @@
   "makerbit.onClap|block": "wenn Klatschen erkannt | mit HC-SR04 Trig an %trig | und Echo an %echo",
   "makerbit|block": "MakerBit",
   "{id:category}Makerbit": "Makerbit",
-  "{id:subcategory}Clap": "Klatschen"
+  "{id:subcategory}Ultrasonic": "Ultraschall"
 }

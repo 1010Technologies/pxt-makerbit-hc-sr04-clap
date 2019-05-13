@@ -5,9 +5,11 @@ namespace makerbit {
 
   /**
    * Do something when a clap or finger snap is detected.
+   * @param trig pin connected to trig, eg: DigitalPin.P5
+   * @param echo pin connected to echo, eg: DigitalPin.P8
    * @param handler body code to run when event is raised
    */
-  //% subcategory="Clap"
+  //% subcategory="Ultrasonic"
   //% blockId=makerbit_ultrasonic_on_clap
   //% block="on clap detected | with HC-SR04 Trig at %trig | and Echo at %echo"
   //% trig.fieldEditor="gridpicker"
